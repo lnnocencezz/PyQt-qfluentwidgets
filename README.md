@@ -1,0 +1,2 @@
+# PyQt-qfluentwidgets
+PyQtSide2 使用qfluentwidgets组件完成一个日常使用框架
