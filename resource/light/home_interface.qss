@@ -1,0 +1,41 @@
+MinimizeButton {
+    qproperty-normalColor: black;
+    qproperty-normalBackgroundColor: transparent;
+    qproperty-hoverColor: black;
+    qproperty-hoverBackgroundColor: rgba(0, 0, 0, 26);
+    qproperty-pressedColor: black;
+    qproperty-pressedBackgroundColor: rgba(0, 0, 0, 51)
+}
+
+
+MaximizeButton {
+    qproperty-normalColor: black;
+    qproperty-normalBackgroundColor: transparent;
+    qproperty-hoverColor: black;
+    qproperty-hoverBackgroundColor: rgba(0, 0, 0, 26);
+    qproperty-pressedColor: black;
+    qproperty-pressedBackgroundColor: rgba(0, 0, 0, 51)
+}
+
+CloseButton {
+    qproperty-normalColor: black;
+    qproperty-normalBackgroundColor: transparent;
+}
+
+HomeInterface, #scrollWidget {
+    background-color: rgb(39, 39, 39);
+}
+
+QScrollArea {
+    border: none;
+    background-color: rgb(39, 39, 39);
+}
+
+
+/* 标签 */
+QLabel#HomeInterfaceTitleLabel {
+    font: 33px 'Microsoft YaHei Light';
+    background-color: transparent;
+    color: dark;
+}
+
