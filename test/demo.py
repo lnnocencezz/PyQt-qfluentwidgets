@@ -56,7 +56,7 @@ class AppCard(CardWidget):
         self.vBoxLayout.setAlignment(Qt.AlignVCenter)
         self.hBoxLayout.addLayout(self.vBoxLayout)
 
-        self.hBoxLayout.addStretch(1)
+        self.hBoxLayout.addStretch(100)
         self.hBoxLayout.addWidget(self.openButton, 0, Qt.AlignRight)
         self.hBoxLayout.addWidget(self.moreButton, 0, Qt.AlignRight)
 
@@ -483,8 +483,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     # w1 = Demo1()
     # w1.show()
-    w2 = Demo2()
-    w2.show()
-    # w3 = Demo3()
-    # w3.show()
+    # w2 = Demo2()
+    # w2.show()
+    w3 = Demo3()
+    w3.show()
     app.exec_()

@@ -39,3 +39,6 @@ QLabel#HomeInterfaceTitleLabel {
     color: dark;
 }
 
+#HomeInterfaceView {
+    background-color: transparent;
+}

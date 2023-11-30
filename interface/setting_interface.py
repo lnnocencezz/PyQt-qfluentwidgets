@@ -29,94 +29,89 @@ class SettingInterface(ScrollArea):
         self.settingLabel = TitleLabel("设置", self)
 
         self.downloadFolderCard = PushSettingCard(
-            self.tr('选择文件夹'),
+            '选择文件夹',
             FIF.DOWNLOAD,
-            self.tr("下载目录"),
+            "下载目录",
             cfg.get(cfg.downloadFolder),
         )
 
         # personalization
-        self.personalGroup = SettingCardGroup(self.tr('个性化'), self.scrollWidget)
+        self.personalGroup = SettingCardGroup('个性化', self.scrollWidget)
         self.themeCard = OptionsSettingCard(
             cfg.themeMode,
             FIF.BRUSH,
-            self.tr('应用主题'),
-            self.tr("调整你的应用外观"),
+            '应用主题',
+            "调整你的应用外观",
             texts=[
-                self.tr('浅色'), self.tr('深色'),
-                self.tr('跟随系统设置')
+                '浅色', '深色', '跟随系统设置'
             ],
             parent=self.personalGroup
         )
         self.zoomCard = OptionsSettingCard(
             cfg.dpiScale,
             FIF.ZOOM,
-            self.tr("界面缩放"),
-            self.tr("调整小部件和字体的大小"),
+            "界面缩放",
+            "调整小部件和字体的大小",
             texts=[
-                "100%", "125%", "150%", "175%", "200%",
-                self.tr("跟随系统设置")
+                "100%", "125%", "150%", "175%", "200%", "跟随系统设置"
             ],
             parent=self.personalGroup
         )
         self.languageCard = ComboBoxSettingCard(
             cfg.language,
             FIF.LANGUAGE,
-            self.tr('语言'),
-            self.tr('选择界面所使用的的语言'),
-            texts=['简体中文', '繁體中文', 'English', self.tr('跟随系统设置')],
+            '语言', '选择界面所使用的的语言',
+            texts=['简体中文', '繁體中文', 'English', '跟随系统设置'],
             parent=self.personalGroup
         )
 
         # main panel
-        self.mainPanelGroup = SettingCardGroup(self.tr('主界面'), self.scrollWidget)
+        self.mainPanelGroup = SettingCardGroup('主界面', self.scrollWidget)
         self.minimizeToTrayCard = SwitchSettingCard(
             FIF.MINIMIZE,
-            self.tr('关闭后最下化到托盘'),
-            self.tr('App将继续在后台运行'),
+            '关闭后最下化到托盘', 'App将继续在后台运行',
             configItem=cfg.minimizeToTray,
             parent=self.mainPanelGroup
         )
 
         # update software
-        self.updateSoftwareGroup = SettingCardGroup(self.tr("软件更新"), self.scrollWidget)
+        self.updateSoftwareGroup = SettingCardGroup("软件更新", self.scrollWidget)
         self.updateOnStartUpCard = SwitchSettingCard(
             FIF.UPDATE,
-            self.tr('在应用程序启动时检查更新'),
-            self.tr('新版本将更加稳定并拥有更多功能(建议启用此选项)'),
+            '在应用程序启动时检查更新',
+            '新版本将更加稳定并拥有更多功能(建议启用此选项)',
             configItem=cfg.checkUpdateAtStartUp,
             parent=self.updateSoftwareGroup
         )
 
         # application
-        self.aboutGroup = SettingCardGroup(self.tr('关于'), self.scrollWidget)
+        self.aboutGroup = SettingCardGroup('关于', self.scrollWidget)
         self.helpCard = HyperlinkCard(
             HELP_URL,
-            self.tr('打开帮助页面'),
+            '打开帮助页面',
             FIF.HELP,
-            self.tr('帮助'),
-            self.tr('发现新功能并了解有关 APP 的使用技巧'),
+            '帮助',
+            '发现新功能并了解有关 APP 的使用技巧',
             self.aboutGroup
         )
         self.feedbackCard = PrimaryPushSettingCard(
-            self.tr('提供反馈'),
-            FIF.FEEDBACK,
-            self.tr('提供反馈'),
-            self.tr('通过提供反馈帮助我们改进 APP'),
-            self.aboutGroup
+            text='提供反馈',
+            icon=FIF.FEEDBACK,
+            title='提供反馈',
+            content='通过提供反馈帮助我们改进 APP',
+            parent=self.aboutGroup
         )
         self.aboutCard = PrimaryPushSettingCard(
-            self.tr('检查更新'),
-            FIF.INFO,
-            self.tr('关于'),
-            '© ' + self.tr('版权所有') + f" {YEAR}, {AUTHOR}. " +
-            self.tr('当前版本') + f" {VERSION}",
-            self.aboutGroup
+            text='检查更新',
+            icon=FIF.INFO,
+            title='关于 © ' + '版权所有' + f" {YEAR}, {AUTHOR}. ",
+            content='当前版本' + f" {VERSION}",
+            parent=self.aboutGroup
         )
 
-        self.__initWidget()
+        self.init_widget()
 
-    def __initWidget(self):
+    def init_widget(self):
         self.resize(1000, 800)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setViewportMargins(0, 120, 0, 20)
@@ -124,13 +119,13 @@ class SettingInterface(ScrollArea):
         self.setWidgetResizable(True)
 
         # initialize style sheet
-        self.__setQss()
+        self.__set_qss()
 
         # initialize layout
-        self.__initLayout()
-        self.__connectSignalToSlot()
+        self.__init_layout()
+        self.__connect_signal_to_slot()
 
-    def __initLayout(self):
+    def __init_layout(self):
         self.settingLabel.move(35, 50)
 
         # add cards to group
@@ -154,7 +149,7 @@ class SettingInterface(ScrollArea):
         self.expandLayout.addWidget(self.updateSoftwareGroup)
         self.expandLayout.addWidget(self.aboutGroup)
 
-    def __setQss(self):
+    def __set_qss(self):
         """ set style sheet """
         self.scrollWidget.setObjectName('scrollWidget')
         self.settingLabel.setObjectName('settingLabel')
@@ -163,7 +158,7 @@ class SettingInterface(ScrollArea):
         with open(f'resource/{theme}/setting_interface.qss', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
 
-    def __showRestartTooltip(self):
+    def __show_restart_tooltip(self):
         """ show restart tooltip """
         InfoBar.warning(
             '',
@@ -171,14 +166,14 @@ class SettingInterface(ScrollArea):
             parent=self.window()
         )
 
-    def __onDeskLyricFontCardClicked(self):
+    def __on_desk_lyric_font_card_clicked(self):
         """ desktop lyric font button clicked slot """
         font, isOk = QFontDialog.getFont(
             cfg.desktopLyricFont, self.window(), self.tr("Choose font"))
         if isOk:
             cfg.desktopLyricFont = font
 
-    def __onDownloadFolderCardClicked(self):
+    def __on_download_folder_card_clicked(self):
         """ download folder card clicked slot """
         folder = QFileDialog.getExistingDirectory(
             self, self.tr("Choose folder"), "../")
@@ -188,22 +183,22 @@ class SettingInterface(ScrollArea):
         cfg.set(cfg.downloadFolder, folder)
         self.downloadFolderCard.setContent(folder)
 
-    def __onThemeChanged(self, theme: Theme):
+    def __on_theme_changed(self, theme: Theme):
         """ theme changed slot """
         # change the theme of qfluentwidgets
         setTheme(theme)
 
         # chang the theme of setting interface
-        self.__setQss()
+        self.__set_qss()
 
-    def __connectSignalToSlot(self):
+    def __connect_signal_to_slot(self):
         """ connect signal to slot """
-        cfg.appRestartSig.connect(self.__showRestartTooltip)
-        cfg.themeChanged.connect(self.__onThemeChanged)
+        cfg.appRestartSig.connect(self.__show_restart_tooltip)
+        cfg.themeChanged.connect(self.__on_theme_changed)
 
         # music in the pc
         self.downloadFolderCard.clicked.connect(
-            self.__onDownloadFolderCardClicked)
+            self.__on_download_folder_card_clicked)
 
         # personalization
 

@@ -5,19 +5,20 @@
 import sys
 
 from PySide2.QtCore import QRect, QUrl
-from PySide2.QtCore import Qt, QEventLoop, QTimer
-from PySide2.QtGui import QIcon, QMovie
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
 from PySide2.QtGui import QPainter, QImage, QBrush, QColor, QFont, QDesktopServices
-from PySide2.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel
-from qfluentwidgets import FluentIcon as FIF, SplashScreen, TitleLabel
+from PySide2.QtWidgets import QApplication, QFrame, QHBoxLayout
+from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import (NavigationItemPosition, NavigationWidget, MessageBox,
                             isDarkTheme)
 from qfluentwidgets import (SplitFluentWindow,
                             SubtitleLabel, setFont)
-from qframelesswindow import FramelessWindow, TitleBarBase
 
+from config import AUTHOR
 from interface.game_interface import GameInterface
 from interface.home_interface import HomeInterface
+from interface.loading_interface import Splash
 from interface.setting_interface import SettingInterface
 
 
@@ -72,79 +73,7 @@ class AvatarWidget(NavigationWidget):
             font = QFont('Segoe UI')
             font.setPixelSize(14)
             painter.setFont(font)
-            painter.drawText(QRect(44, 0, 255, 36), Qt.AlignVCenter, 'New In')
-
-
-class Splash(FramelessWindow):
-
-    def __init__(self):
-        super().__init__()
-        self.resize(900, 700)
-        self.set_position()
-        self.setWindowTitle("New In's App")
-        self.setWindowIcon(QIcon('resource/img/logo.png'))
-
-        # 创建splash screen
-        self.splashScreen = SplashScreen(self.windowIcon(), self)
-
-        self.add_title_bar()
-        self.add_loading_gif()
-        self.add_loading_text()
-
-        self.show()
-
-        # create other subinterfaces
-        self.createSubInterface()
-
-        # close splash screen
-        self.splashScreen.finish()
-
-    def add_title_bar(self):
-        # 显示icon 和title
-        # title_bar = StandardTitleBar(self.splashScreen)
-        # title_bar.setIcon(self.windowIcon())
-        # title_bar.setTitle(self.windowTitle())
-        # self.splashScreen.setTitleBar(title_bar)
-        # 不显示icon 和title 以及最大化最小化关闭按钮
-        title_bar = TitleBarBase(self.splashScreen)
-        title_bar.minBtn.hide()
-        title_bar.maxBtn.hide()
-        title_bar.closeBtn.hide()
-        self.splashScreen.setTitleBar(title_bar)
-
-    def add_loading_gif(self):
-        wait_gif = QMovie("resource/img/loading.gif")
-        self.gif_label = QLabel(self.splashScreen)
-        self.gif_label.setObjectName("gif_label")
-        self.gif_label.setGeometry(180, 10, 900, 700)
-        self.gif_label.setMovie(wait_gif)
-        wait_gif.start()
-
-    def add_loading_text(self):
-        self.gif_text = TitleLabel(self.splashScreen)
-        self.gif_text.setObjectName("gif_text")
-        self.gif_text.setGeometry(300, 65, 900, 60)
-        self.gif_text.setText("☕稍等一下,马上就好~~")
-        self.gif_text.setStyleSheet(
-            """
-            color:#f36919; 
-		   font-size:5em;
-		   font-family:"微软雅黑";
-            """
-        )
-
-    def createSubInterface(self):
-        loop = QEventLoop(self)
-        QTimer.singleShot(3500, loop.quit)
-        loop.exec_()
-
-    def set_position(self):
-        """
-        设置打开窗口在屏幕居中显示
-        """
-        screen = app.primaryScreen().geometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
+            painter.drawText(QRect(44, 0, 255, 36), Qt.AlignVCenter, AUTHOR)
 
 
 class Window(SplitFluentWindow):
@@ -236,7 +165,7 @@ if __name__ == '__main__':
     # setTheme(Theme.DARK)
     app = QApplication(sys.argv)
     MainWindow = Window()
-    splash = Splash()
+    splash = Splash(app)
     splash.close()
     MainWindow.show()
     app.exec_()

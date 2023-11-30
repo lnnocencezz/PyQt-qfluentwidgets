@@ -204,10 +204,19 @@ class GameInterface(ScrollArea):
         self.total_btn = PrimaryPushButton('统计数据', self, FIF.LABEL)
         # 设置按钮提示
         self.popup_btn.setToolTip('选择日期后会显示当日比赛数据')
+        self.check_score_btn.setToolTip('点击后即可查看当日比赛数据')
+        self.refresh_btn.setToolTip('点击后立即刷新球员数据')
+        self.total_btn.setToolTip('点击后输入球员数据即可统计战力值')
         # 设置延时隐藏 -1 代表不隐藏
-        self.popup_btn.setToolTipDuration(1000)
+        self.popup_btn.setToolTipDuration(3000)
+        self.check_score_btn.setToolTipDuration(3000)
+        self.refresh_btn.setToolTipDuration(3000)
+        self.total_btn.setToolTipDuration(3000)
         # 设置延时显示 0代表零延时
         self.popup_btn.installEventFilter(ToolTipFilter(self.popup_btn, 0, ToolTipPosition.TOP))
+        self.check_score_btn.installEventFilter(ToolTipFilter(self.check_score_btn, 0, ToolTipPosition.TOP))
+        self.refresh_btn.installEventFilter(ToolTipFilter(self.refresh_btn, 0, ToolTipPosition.TOP))
+        self.total_btn.installEventFilter(ToolTipFilter(self.total_btn, 0, ToolTipPosition.TOP))
 
         buttons_layout.addWidget(self.popup_btn)
         buttons_layout.addWidget(self.check_score_btn)
@@ -307,13 +316,22 @@ class GameInterface(ScrollArea):
         w = CustomTotalBox(self)
         if w.exec():
             name_list = w.urlLineEdit.text().split(' ')
-            player_data = self.players_data
-            print(player_data)
-            selected = [p for p in player_data if p[0] in name_list]
-            # print(selected)
-            total = sum(float(p[-1]) for p in selected)
+            result = self.search(self.players_data, name_list)
             InfoBarWidget.create_success_info_bar(self, '统计结果',
-                                                  f'选中球员为【{", ".join(name_list)}】\n战力值合计:【{total}】', -1)
+                                                  f'选中球员为【{", ".join(result[0])}】\n战力值合计:【{result[1]}】', -1)
+
+    @staticmethod
+    def search(player_lst, name_lst):
+        cp = 0
+        match_player = []
+        for name in name_lst:
+            for player in player_lst:
+                player_name = player[0]
+                if name in player_name:
+                    print(player_name, player[-1])
+                    match_player.append(player_name)
+                    cp += float(player[-1], )
+        return match_player, round(cp, 2)
 
     def on_check_score_btn_clicked(self):
         score_text = ""
@@ -325,9 +343,11 @@ class GameInterface(ScrollArea):
             away_team = _["away_team"]
             print(home_team, home_score, away_score, away_team)
             if int(home_score) > int(away_score):
-                score_text += '<h3>{} (主) <font color="red">{}</font> - {} {} </h3>'.format(home_team, home_score,away_score, away_team)
+                score_text += '<h3>{} (主) <font color="red">{}</font> - {} {} </h3>'.format(home_team, home_score,
+                                                                                             away_score, away_team)
             else:
-                score_text += '<h3>{} (主) {} - <font color="red">{}</font> {} </h3>'.format(home_team, home_score,away_score, away_team)
+                score_text += '<h3>{} (主) {} - <font color="red">{}</font> {} </h3>'.format(home_team, home_score,
+                                                                                             away_score, away_team)
 
         w = MessageBox(
             f'比赛日期: 📅 {self.selected_date}',

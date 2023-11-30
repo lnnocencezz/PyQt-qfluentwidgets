@@ -56,7 +56,8 @@ class GameData:
             # 对players整体排序
             players.sort(key=lambda x: float(x[-1]), reverse=True)
             if home_team and away_team:
-                score_data = {'home_team': home_team, 'home_score':home_score[0], 'away_team':away_team, 'away_score': away_score[0]}
+                score_data = {'home_team': home_team, 'home_score': home_score[0], 'away_team': away_team,
+                              'away_score': away_score[0]}
                 scores.append(score_data)
         game_data = {"players": players, "scores": scores}
         return game_data
@@ -136,7 +137,7 @@ class GameData:
             cp = str(round(cp, 2))
             base_data.append([name, team_name, pts, reb, ast, stl, blk, to, fa, ef, cp])
             # 去掉得分低于5分的
-            filter_data = [player for player in base_data if int(player[2]) >= 5]
+            filter_data = [player for player in base_data if int(player[2]) >= 1]
         return filter_data
 
 
