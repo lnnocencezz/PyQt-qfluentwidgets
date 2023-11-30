@@ -148,4 +148,4 @@ if __name__ == '__main__':
     today_str = today.strftime("%Y-%m-%d")
     url = f'https://nba.hupu.com/games/{today_str}'
     data = GameData(url).parse_links()
-    print(data['scores'])
+    # print(data['scores'])
