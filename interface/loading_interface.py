@@ -5,10 +5,10 @@
 from PySide2.QtCore import QEventLoop, QTimer
 from PySide2.QtGui import QIcon, QMovie
 from PySide2.QtWidgets import QLabel
-from qfluentwidgets import SplashScreen, TitleLabel, isDarkTheme
+from qfluentwidgets import SplashScreen, TitleLabel
 from qframelesswindow import FramelessWindow, TitleBarBase
 
-from config import APP_NAME, cfg
+from config import APP_NAME
 
 
 class Splash(FramelessWindow):

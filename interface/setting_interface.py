@@ -1,8 +1,8 @@
 # coding:utf-8
-from PySide2.QtCore import Qt, Signal, QUrl
+from PySide2.QtCore import Qt, Signal, QUrl, QTimer
 from PySide2.QtGui import QDesktopServices
 from PySide2.QtWidgets import QWidget, QFontDialog, QFileDialog
-from qfluentwidgets import FluentIcon as FIF, TitleLabel
+from qfluentwidgets import FluentIcon as FIF, TitleLabel, StateToolTip
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, OptionsSettingCard, PushSettingCard,
                             HyperlinkCard, PrimaryPushSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, setTheme, isDarkTheme)
@@ -22,6 +22,7 @@ class SettingInterface(ScrollArea):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.scrollWidget = QWidget()
+        self.state_tool_tip = None
         self.expandLayout = ExpandLayout(self.scrollWidget)
 
         self.setObjectName("settingInterface")  # 添加objectName
@@ -191,6 +192,21 @@ class SettingInterface(ScrollArea):
         # chang the theme of setting interface
         self.__set_qss()
 
+    def __on_about_card_clicked(self):
+        self.show_state_tooltips()
+        QTimer.singleShot(3000, self.show_state_tooltips)
+
+    def show_state_tooltips(self):
+        if self.state_tool_tip:
+            self.state_tool_tip.setTitle('版本查询完成')
+            self.state_tool_tip.setContent('当前已是最新版本，请放心使用 😆')
+            self.state_tool_tip.setState(True)
+            self.state_tool_tip = None
+        else:
+            self.state_tool_tip = StateToolTip('正在查询最新版本', '客官请耐心等待哦~~', self)
+            self.state_tool_tip.move(510, 30)
+            self.state_tool_tip.show()
+
     def __connect_signal_to_slot(self):
         """ connect signal to slot """
         cfg.appRestartSig.connect(self.__show_restart_tooltip)
@@ -206,7 +222,9 @@ class SettingInterface(ScrollArea):
         self.minimizeToTrayCard.checkedChanged.connect(
             self.minimizeToTrayChanged)
 
-        # about
-        self.aboutCard.clicked.connect(self.checkUpdateSig)
+        # 提供反馈
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
+
+        # 检查更新
+        self.aboutCard.clicked.connect(self.__on_about_card_clicked)

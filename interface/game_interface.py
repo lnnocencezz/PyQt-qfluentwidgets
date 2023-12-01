@@ -6,7 +6,7 @@ from datetime import datetime
 
 from PySide2.QtCore import QUrl, Qt, QThread, Signal, QTimer
 from PySide2.QtGui import QPixmap, QDesktopServices
-from PySide2.QtWidgets import QTableWidgetItem, QHBoxLayout, QVBoxLayout, QLabel, QLCDNumber
+from PySide2.QtWidgets import QTableWidgetItem, QHBoxLayout, QVBoxLayout, QLabel, QLCDNumber, QHeaderView
 from qfluentwidgets import FluentIcon as FIF, PrimaryPushButton, isDarkTheme, LineEdit, MessageBox, StateToolTip, \
     ToolTipFilter, ToolTipPosition
 from qfluentwidgets import TableWidget, ScrollArea, SubtitleLabel, CalendarPicker
@@ -184,7 +184,7 @@ class GameInterface(ScrollArea):
             """
         )
         self.lcd.resize(250, 40)
-        self.lcd.move(550, 65)
+        self.lcd.move(450, 65)
 
     def add_table_widget(self):
         """
@@ -281,18 +281,18 @@ class GameInterface(ScrollArea):
         self.tableView.horizontalHeader().setStyleSheet(
             "QHeaderView::section{background-color:rgb(96, 155, 206);color: white;};"
         )
-        self.tableView.setColumnWidth(0, 150)  # 再手动设置第一列为150
-        self.tableView.setColumnWidth(1, 90)
-        self.tableView.setColumnWidth(2, 61)
-        self.tableView.setColumnWidth(3, 61)
-        self.tableView.setColumnWidth(4, 61)
-        self.tableView.setColumnWidth(5, 61)
-        self.tableView.setColumnWidth(6, 61)
-        self.tableView.setColumnWidth(7, 61)
-        self.tableView.setColumnWidth(8, 61)
-        self.tableView.setColumnWidth(9, 65)
-        self.tableView.setColumnWidth(10, 65)
-        # 设置居中
+        # self.tableView.setColumnWidth(0, 150)  # 再手动设置第一列为150
+        # self.tableView.setColumnWidth(1, 90)
+        # self.tableView.setColumnWidth(2, 61)
+        # self.tableView.setColumnWidth(3, 61)
+        # self.tableView.setColumnWidth(4, 61)
+        # self.tableView.setColumnWidth(5, 61)
+        # self.tableView.setColumnWidth(6, 61)
+        # self.tableView.setColumnWidth(7, 61)
+        # self.tableView.setColumnWidth(8, 61)
+        # self.tableView.setColumnWidth(9, 65)
+        # self.tableView.setColumnWidth(10, 65)
+        # # 设置居中
         for c in range(self.tableView.columnCount()):
             for r in range(self.tableView.rowCount()):
                 if self.tableView.item(r, c) is not None:
@@ -300,6 +300,9 @@ class GameInterface(ScrollArea):
 
         # 允许排序
         self.tableView.setSortingEnabled(True)
+        # 自适应
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableView.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
 
     def on_clicked(self):
         """
