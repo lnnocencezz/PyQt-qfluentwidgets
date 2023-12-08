@@ -19,6 +19,7 @@ from config import AUTHOR
 from interface.game_interface import GameInterface
 from interface.home_interface import HomeInterface
 from interface.loading_interface import Splash
+from interface.music_interface import MusicInterface
 from interface.setting_interface import SettingInterface
 
 
@@ -83,7 +84,7 @@ class Window(SplitFluentWindow):
         self.screen_resolution = self.get_resolution()  # 显示器宽高
         # create sub interface
         self.homeInterface = HomeInterface(self)
-        self.musicInterface = Widget('Music Interface', self)
+        self.musicInterface = MusicInterface(self)
         self.videoInterface = Widget('Video Interface', self)
         self.folderInterface = Widget('Folder Interface', self)
         self.gameInterface = GameInterface(self)
@@ -165,7 +166,7 @@ if __name__ == '__main__':
     # setTheme(Theme.DARK)
     app = QApplication(sys.argv)
     MainWindow = Window()
-    splash = Splash(app)
-    splash.close()
+    # splash = Splash(app)
+    # splash.close()
     MainWindow.show()
     app.exec_()

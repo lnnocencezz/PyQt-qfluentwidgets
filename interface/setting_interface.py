@@ -105,8 +105,8 @@ class SettingInterface(ScrollArea):
         self.aboutCard = PrimaryPushSettingCard(
             text='检查更新',
             icon=FIF.INFO,
-            title='关于 © ' + '版权所有' + f" {YEAR}, {AUTHOR}. ",
-            content='当前版本' + f" {VERSION}",
+            title='关于',
+            content='© ' + '版权所有' + f" {YEAR}, {AUTHOR}. " + '当前版本' + f" {VERSION}",
             parent=self.aboutGroup
         )
 

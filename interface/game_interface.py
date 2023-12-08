@@ -8,7 +8,7 @@ from PySide2.QtCore import QUrl, Qt, QThread, Signal, QTimer
 from PySide2.QtGui import QPixmap, QDesktopServices
 from PySide2.QtWidgets import QTableWidgetItem, QHBoxLayout, QVBoxLayout, QLabel, QLCDNumber, QHeaderView
 from qfluentwidgets import FluentIcon as FIF, PrimaryPushButton, isDarkTheme, LineEdit, MessageBox, StateToolTip, \
-    ToolTipFilter, ToolTipPosition
+    ToolTipFilter, ToolTipPosition, InfoBarPosition
 from qfluentwidgets import TableWidget, ScrollArea, SubtitleLabel, CalendarPicker
 from qfluentwidgets import TitleLabel, MessageBoxBase
 
@@ -245,7 +245,7 @@ class GameInterface(ScrollArea):
             self.players_data = result['players']
             self.team_scores = result['scores']
             self.refresh_table()
-            InfoBarWidget.create_success_info_bar(self, "刷新数据", "数据更新成功", 1500)
+            InfoBarWidget.create_success_info_bar(self, "刷新数据", "数据更新成功", 1500, InfoBarPosition.TOP_RIGHT)
 
     # 随机生成数据
     def refresh_table(self):
@@ -261,7 +261,7 @@ class GameInterface(ScrollArea):
         # 重新添加行列
         self.tableView.setWordWrap(False)
         # 设置行数
-        self.tableView.setRowCount(120)
+        # self.tableView.setRowCount(120)
         # 设置列数
         self.tableView.setColumnCount(11)
 
@@ -281,28 +281,16 @@ class GameInterface(ScrollArea):
         self.tableView.horizontalHeader().setStyleSheet(
             "QHeaderView::section{background-color:rgb(96, 155, 206);color: white;};"
         )
-        # self.tableView.setColumnWidth(0, 150)  # 再手动设置第一列为150
-        # self.tableView.setColumnWidth(1, 90)
-        # self.tableView.setColumnWidth(2, 61)
-        # self.tableView.setColumnWidth(3, 61)
-        # self.tableView.setColumnWidth(4, 61)
-        # self.tableView.setColumnWidth(5, 61)
-        # self.tableView.setColumnWidth(6, 61)
-        # self.tableView.setColumnWidth(7, 61)
-        # self.tableView.setColumnWidth(8, 61)
-        # self.tableView.setColumnWidth(9, 65)
-        # self.tableView.setColumnWidth(10, 65)
-        # # 设置居中
-        for c in range(self.tableView.columnCount()):
-            for r in range(self.tableView.rowCount()):
-                if self.tableView.item(r, c) is not None:
-                    self.tableView.item(r, c).setTextAlignment(Qt.AlignCenter)
-
         # 允许排序
         self.tableView.setSortingEnabled(True)
         # 自适应
         self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableView.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
+        # 设置居中
+        for c in range(self.tableView.columnCount()):
+            for r in range(self.tableView.rowCount()):
+                if self.tableView.item(r, c) is not None:
+                    self.tableView.item(r, c).setTextAlignment(Qt.AlignCenter)
 
     def on_clicked(self):
         """
@@ -313,7 +301,7 @@ class GameInterface(ScrollArea):
             self.init_data()
         else:
             self.refresh_table()
-        InfoBarWidget.create_success_info_bar(self, "刷新数据", "数据更新成功", 1500)
+        InfoBarWidget.create_success_info_bar(self, "刷新数据", "数据更新成功", 1500, InfoBarPosition.TOP_RIGHT)
 
     def on_total_btn_clicked(self):
         w = CustomTotalBox(self)
@@ -321,7 +309,7 @@ class GameInterface(ScrollArea):
             name_list = w.urlLineEdit.text().split(' ')
             result = self.search(self.players_data, name_list)
             InfoBarWidget.create_success_info_bar(self, '统计结果',
-                                                  f'选中球员为【{", ".join(result[0])}】\n战力值合计:【{result[1]}】', -1)
+                                                  f'选中球员为【{", ".join(result[0])}】\n战力值合计:【{result[1]}】', -1, InfoBarPosition.TOP_RIGHT)
 
     @staticmethod
     def search(player_lst, name_lst):
@@ -334,6 +322,7 @@ class GameInterface(ScrollArea):
                     print(player_name, player[-1])
                     match_player.append(player_name)
                     cp += float(player[-1], )
+        print("合计： ", round(cp, 2))
         return match_player, round(cp, 2)
 
     def on_check_score_btn_clicked(self):
@@ -346,10 +335,10 @@ class GameInterface(ScrollArea):
             away_team = _["away_team"]
             print(home_team, home_score, away_score, away_team)
             if int(home_score) > int(away_score):
-                score_text += '<h3>{} (主) <font color="red">{}</font> - {} {} </h3>'.format(home_team, home_score,
+                score_text += '<h3>🏆{} (主) <font color="red">{}</font> - {} {} </h3>'.format(home_team, home_score,
                                                                                              away_score, away_team)
             else:
-                score_text += '<h3>{} (主) {} - <font color="red">{}</font> {} </h3>'.format(home_team, home_score,
+                score_text += '<h3>{} (主) {} - <font color="red">{}</font> {}🏆 </h3>'.format(home_team, home_score,
                                                                                              away_score, away_team)
 
         w = MessageBox(

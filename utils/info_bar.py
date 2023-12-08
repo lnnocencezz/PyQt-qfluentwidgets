@@ -29,13 +29,13 @@ class InfoBarWidget(QWidget):
         w.addWidget(PushButton('Action'))
         w.show()
 
-    def create_success_info_bar(self, title, content, duration):
+    def create_success_info_bar(self, title, content, duration, position):
         InfoBar.success(
             title=title,
             content=content,
             orient=Qt.AlignCenter,  # 垂直水平对齐
             isClosable=True,
-            position=InfoBarPosition.TOP,
+            position=position,
             duration=duration,
             parent=self
         )

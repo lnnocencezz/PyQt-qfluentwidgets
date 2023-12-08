@@ -111,7 +111,7 @@ class Config(QConfig):
 YEAR = 2023
 APP_NAME = "New In's APP"
 AUTHOR = "New In"
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 HELP_URL = "https://github.com/lnnocencezz"
 FEEDBACK_URL = "https://github.com/lnnocencezz/PyQt-qfluentwidgets/issues"
 RELEASE_URL = "https://github.com/lnnocencezz/PyQt-qfluentwidgets"
