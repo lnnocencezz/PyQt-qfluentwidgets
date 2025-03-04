@@ -113,7 +113,7 @@ class SettingInterface(ScrollArea):
         self.init_widget()
 
     def init_widget(self):
-        self.resize(1000, 800)
+        self.resize(1000, 900)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setViewportMargins(0, 120, 0, 20)
         self.setWidget(self.scrollWidget)

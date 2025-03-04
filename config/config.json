@@ -1,6 +1,6 @@
 {
     "Update": {
-        "CheckUpdateAtStartUp": true
+        "CheckUpdateAtStartUp": false
     },
     "DesktopLyric": {
         "Alignment": "Center",

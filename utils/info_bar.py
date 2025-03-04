@@ -40,13 +40,13 @@ class InfoBarWidget(QWidget):
             parent=self
         )
 
-    def create_warning_info_bar(self, title, content, duration):
+    def create_warning_info_bar(self, title, content, duration, position):
         InfoBar.warning(
             title=title,
             content=content,
             orient=Qt.AlignCenter,
             isClosable=False,  # disable close button
-            position=InfoBarPosition.BOTTOM_RIGHT,
+            position=position,
             duration=duration,
             parent=self
         )
