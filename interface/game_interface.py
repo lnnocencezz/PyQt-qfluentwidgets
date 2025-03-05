@@ -82,6 +82,7 @@ class OCRWorker(QThread):
             "贾伦·杜伦": "杰伦-杜伦",
             "小贾伦·杰克逊": "格雷格-杰克逊二世",
             "沃克·科斯勒": "沃克-凯斯勒",
+            "保罗·班凯罗": "保罗-班切罗",
         }
 
         def normalize_name(name):
@@ -100,7 +101,15 @@ class OCRWorker(QThread):
                 normalized_player_name = normalize_name(player_name)
 
                 if normalized_name in normalized_player_name:
-                    print(f"匹配成功: {player_name} (识别: {name}, 映射后: {mapped_name})")
+                    print(f"匹配成功: "
+                          f"{player[0]}, "
+                          f"{player[2]}分, "
+                          f"{player[3]}篮板, "
+                          f"{player[4]}助攻, "
+                          f"{player[5]}抢断, "
+                          f"{player[6]}盖帽, "
+                          f"{player[-1]}战力值"
+                          )
                     match_player.append(player_name)
                     cp += float(player[-1])
                     break
